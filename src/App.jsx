@@ -8,11 +8,12 @@ import Lanyard from "./components/Lanyard/Lanyard";
 import GlassIcons from "./components/GlassIcons/GlassIcons";
 import { listTools, listProyek } from "./data";
 import ChromaGrid from "./components/ChromaGrid/ChromaGrid";
-import ProjectModal from "./components/ProjectModal/ProjectModal"; // <-- IMPORT MODAL
+import ProjectModal from "./components/ProjectModal/ProjectModal";
 import Aurora from "./components/Aurora/Aurora";
 import AOS from 'aos';
 import ChatRoom from "./components/ChatRoom";
-import 'aos/dist/aos.css'; // You can also use <link> for styles
+import SourceCodeModal from "./components/SourceCodeModal/SourceCodeModal";
+import 'aos/dist/aos.css';
 // ..
 AOS.init();
 
@@ -20,7 +21,8 @@ function App() {
   const aboutRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
-  const [selectedProject, setSelectedProject] = useState(null); // null = modal tertutup
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [showSourceCode, setShowSourceCode] = useState(false);
 
   const handleProjectClick = (project) => {
     setSelectedProject(project);
@@ -88,14 +90,20 @@ function App() {
               direction="top"
               className=" mb-6"
             />
-            <div className="flex items-center sm:gap-4 gap-2">
-              <a 
-                href="./assets/CV.pdf" 
-                download="Faris_Edrik_Prayoga_CV.pdf" 
-                className="font-semibold bg-[#1a1a1a] p-4 px-6 rounded-full border border-gray-700 hover:bg-[#222] transition-colors"
+            <div className="flex items-center sm:gap-4 gap-2 flex-wrap">
+              <button
+                onClick={() => alert("CV coming soon!")}
+                className="font-semibold bg-[#1a1a1a] p-4 px-6 rounded-full border border-gray-700 hover:bg-[#222] transition-colors cursor-pointer"
               >
                 <ShinyText text="Download CV" disabled={false} speed={3} className="custom-class" />
-              </a>
+              </button>
+
+              <button
+                onClick={() => setShowSourceCode(true)}
+                className="font-semibold bg-[#1a1a1a] p-4 px-6 rounded-full border border-gray-700 hover:bg-[#222] transition-colors cursor-pointer"
+              >
+                <ShinyText text="View Source Code" disabled={false} speed={3} className="custom-class" />
+              </button>
 
               <a href="#project" className="font-semibold bg-[#1a1a1a] p-4 px-6 rounded-full border border-gray-700 hover:bg-[#222] transition-colors">
                 <ShinyText text="Explore My Projects" disabled={false} speed={3} className="custom-class" />
@@ -319,6 +327,8 @@ function App() {
         onClose={handleCloseModal}
         project={selectedProject}
       />
+
+      {showSourceCode && <SourceCodeModal onClose={() => setShowSourceCode(false)} />}
     </>
   )
 }
